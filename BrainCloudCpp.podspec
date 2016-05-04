@@ -34,10 +34,10 @@ Pod::Spec.new do |s|
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  #s.header_dir              = "braincloud"
+#  s.header_dir              = "braincloud"
   s.header_mappings_dir     = "include"
-  s.public_header_files     = "include/braincloud/*.h"
-  s.private_header_files    = "include/braincloud/internal/*.h", "include/braincloud/internal/mac/*.h"
+  s.public_header_files     = "include/braincloud/**/*.h"
+#  s.private_header_files    = "include/braincloud/internal/*.h", "include/braincloud/internal/mac/*.h"
   s.source_files            = "src/*.{c,cpp}", "src/mac/*.{c,cpp,mm}", "include/braincloud/*.h", "include/braincloud/internal/*.h", "include/braincloud/internal/mac/*.h", "include/braincloud/internal/nix/*.h"
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
