@@ -3,10 +3,12 @@
 //  BrainCloudLib
 //
 
+#if !defined(WINAPI_FAMILY)
+
 #include <iostream>
 
 extern "C" {
-#ifndef WIN32
+#if !defined(WIN32)
 	#ifdef HG_PLATFORM_BB
 		#include <errno.h>
 		#include <sys/time.h>
@@ -17,6 +19,7 @@ extern "C" {
 #else
 #include <time.h>
 #include <windows.h>
+#include <WinSock2.h>
 #if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
   #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
 #else
@@ -312,3 +315,5 @@ namespace BrainCloud {
     }  // end Timer::setState
 
 }  // end namespace
+
+#endif

@@ -1,6 +1,6 @@
 #ifndef __ANDROID__
 
-#include "BrainCloudComms2.h"
+#include "braincloud/internal/win/BrainCloudComms2.h"
 
 #include <string>
 #include <cpprest/http_client.h>
@@ -10,12 +10,12 @@
 
 #include "json/json.h"
 
-#include "MD5.h"
+#include "braincloud/internal/win/MD5.h"
 
-#include "BrainCloudClient.h"
-#include "http_codes.h"
-#include "reason_codes.h"
-#include "CppRestFileUploader.h"
+#include "braincloud/BrainCloudClient.h"
+#include "braincloud/http_codes.h"
+#include "braincloud/reason_codes.h"
+#include "braincloud/internal/win/CppRestFileUploader.h"
 
 #ifdef WINAPI
 #include <tchar.h>

@@ -1,0 +1,163 @@
+option lib
+subproject brainCloud
+
+defines
+{
+    IW_HTTP_SSL
+}
+
+packages
+{
+    iwhttp
+    jsoncpp
+}
+
+subprojects
+{
+    iwhttp
+    jsoncpp
+}
+
+frameworks
+{
+    "CoreFoundation"
+    "Foundation"
+    "SystemConfiguration"
+}
+
+option
+{
+  #  cxx11
+}
+
+includepath 
+{
+    ../../GameClientLib/src/ApiHeaders
+    ../../GameClientLib/src/HGEngine
+    ../../GameClientLib/src/HTTP
+}
+
+files
+{
+    (../../GameClientLib/src/ApiHeaders)
+    BrainCloudAsyncMatch.h
+    BrainCloudAuthentication.h
+    BrainCloudClient.h
+    BrainCloudDataStream.h
+    BrainCloudEntity.h
+    BrainCloudEvent.h
+    BrainCloudFile.h
+    BrainCloudFriend.h
+    BrainCloudGamification.h
+    BrainCloudGlobalApp.h
+    BrainCloudGlobalEntity.h
+    BrainCloudGlobalStatistics.h
+    BrainCloudIdentity.h
+    BrainCloudMatchmaking.h
+    BrainCloudOneWayMatch.h
+    BrainCloudPlaybackStream.h
+    BrainCloudPlayerState.h
+    BrainCloudPlayerStatistics.h
+    BrainCloudPlayerStatisticsEvent.h
+    BrainCloudProduct.h
+    BrainCloudProfanity.h
+    BrainCloudPushNotification.h
+    BrainCloudRedemptionCode.h
+    BrainCloudS3Handling.h
+    BrainCloudScript.h
+    BrainCloudSocialLeaderboard.h
+    BrainCloudSteam.h
+    BrainCloudTime.h
+    BrainCloudTwitter.h
+    BrainCloudTypes.h
+    FriendPlatform.h
+    IBrainCloudComms.h
+    IEventCallback.h
+    IFileUploadCallback.h
+    IRewardCallback.h
+    IServerCallback.h
+    OperationParam.h
+    Platform.h
+    ServerCall.h
+    ServiceName.h
+    ServiceOperation.h
+    http_codes.h
+    reason_codes.h
+    
+    (../../GameClientLib/src)
+    BrainCloudClient.cpp
+    BrainCloudAsyncMatch.cpp
+    BrainCloudAuthentication.cpp
+    BrainCloudClient.cpp
+    BrainCloudComms.cpp
+    BrainCloudComms.h
+    BrainCloudDataStream.cpp
+    BrainCloudEntity.cpp
+    BrainCloudEvent.cpp
+    BrainCloudFile.cpp
+    BrainCloudFriend.cpp
+    BrainCloudGamification.cpp
+    BrainCloudGlobalApp.cpp
+    BrainCloudGlobalEntity.cpp
+    BrainCloudGlobalStatistics.cpp
+    BrainCloudIdentity.cpp
+    BrainCloudMatchmaking.cpp
+    BrainCloudOneWayMatch.cpp
+    BrainCloudPlaybackStream.cpp
+    BrainCloudPlayerState.cpp
+    BrainCloudPlayerStatistics.cpp
+    BrainCloudPlayerStatisticsEvent.cpp
+    BrainCloudProduct.cpp
+    BrainCloudProfanity.cpp
+    BrainCloudPushNotification.cpp
+    BrainCloudRedemptionCode.cpp
+    BrainCloudS3Handling.cpp
+    BrainCloudScript.cpp
+    BrainCloudSocialLeaderboard.cpp
+    BrainCloudSteam.cpp
+    BrainCloudTime.cpp
+    BrainCloudTwitter.cpp
+    FriendPlatform.cpp
+    GUID.cpp
+    GUID.h
+    IBrainCloudComms.cpp
+    JsonUtil.cpp
+    JsonUtil.h
+    MD5.cpp
+    MD5.h
+    OperationParam.cpp
+    PantheiosStub.h
+    Platform.cpp
+    ServerCall.cpp
+    ServiceName.cpp
+    ServiceOperation.cpp
+    StringUtil.cpp
+    StringUtil.h
+    TimeUtil.h
+    TimeUtil.cpp
+    
+    (../../GameClientLib/src/HGEngine)
+    md5x.c
+    md5x.h
+
+    (../../GameClientLib/src/HTTP)
+    IFileUploader.h
+    URLLoader.cpp
+    URLLoader.h
+    URLLoaderClient.cpp
+    URLLoaderClient.h
+    URLRequest.cpp
+    URLRequest.h
+    URLRequestHeader.cpp
+    URLRequestHeader.h
+    URLRequestMethod.cpp
+    URLRequestMethod.h
+    URLResponse.cpp
+    URLResponse.h
+    #cURLFileUploader.cpp
+    #cURLFileUploader.h
+    #cURLLoader.cpp
+    #cURLLoader.h
+    IwHttpLoader.cpp
+    IwHttpLoader.h
+}

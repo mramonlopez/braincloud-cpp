@@ -25,7 +25,7 @@ extern "C" {
 
 #include <time.h>
 #include <windows.h>
-    
+#include <WinSock2.h>
 
 #if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)
   #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64
@@ -95,7 +95,7 @@ namespace BrainCloud
 #if __cplusplus >= 201103L && !defined(__ANDROID__)
         auto sleep = std::chrono::milliseconds(millis);
         std::this_thread::sleep_for(sleep);
-#elif WIN32
+#elif defined (WIN32) || defined(WINAPI_FAMILY)
         Sleep(millis);
 #else
         usleep(millis * 1000);

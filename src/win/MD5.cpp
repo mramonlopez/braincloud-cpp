@@ -31,7 +31,7 @@ documentation and/or software.
 */
 
 /* interface header */
-#include "MD5.h"
+#include "braincloud/internal/win/MD5.h"
 
 /* system implementation headers */
 #include <cstdio>

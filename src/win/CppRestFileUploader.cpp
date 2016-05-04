@@ -1,6 +1,6 @@
 #ifndef __ANDROID__
 
-#include "CppRestFileUploader.h"
+#include "braincloud/internal/win/CppRestFileUploader.h"
 
 #include <string>
 #include <iostream>
@@ -9,9 +9,9 @@
 #include <thread>
 #include <cpprest/http_client.h>
 #include <cpprest/filestream.h>
-#include "http_codes.h"
-#include "reason_codes.h"
-#include "IBrainCloudComms.h"
+#include "braincloud/http_codes.h"
+#include "braincloud/reason_codes.h"
+#include "braincloud/internal/IBrainCloudComms.h"
 
 using namespace web::http;
 

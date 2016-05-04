@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IBrainCloudComms.h"
+#include "braincloud/internal/IBrainCloudComms.h"
 
 #include <thread>
 #include <deque>

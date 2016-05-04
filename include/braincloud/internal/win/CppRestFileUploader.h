@@ -5,7 +5,7 @@
 #include <mutex>
 #include <vector>
 #include <cpprest/http_client.h>
-#include "IFileUploader.h"
+#include "braincloud/internal/IFileUploader.h"
 
 
 namespace BrainCloud
