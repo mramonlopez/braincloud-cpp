@@ -52,7 +52,7 @@ public:
      allowed of one second. (Added in 7.16.2)
      */
     virtual void setTimeout(int milliseconds) { _timeoutInterval = milliseconds; }
-    virtual int  getTimeout() { return _timeoutInterval; }
+    virtual int  getTimeout() { return static_cast<int>(_timeoutInterval); }
     //FIXME: Maybe this should be obfuscated.
     void setThreadRunning(bool running) { _threadRunning = running; }
     

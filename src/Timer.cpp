@@ -197,7 +197,8 @@ namespace BrainCloud {
         // Sleep for the specified time period.
         // However, we need a way to interrupt the sleep.
         // Therefore, use the conditional timed wait pthread call.
-        int rc = pthread_cond_timedwait(&_timerCondition, &_timerMutex, &ts);
+        //int rc =
+        pthread_cond_timedwait(&_timerCondition, &_timerMutex, &ts);
 
         //if ( rc != ETIMEDOUT ) {
             // We expect it to time out.
