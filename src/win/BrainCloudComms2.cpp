@@ -1,15 +1,15 @@
 #ifndef __ANDROID__
 
-#include "braincloud/internal/win/BrainCloudComms2.h"
 
 #include <string>
-#include <cpprest/http_client.h>
 #include <iostream>
 #include <sstream>
 #include <chrono>
 
 #include "json/json.h"
+#include "cpprest/http_client.h"
 
+#include "braincloud/internal/win/BrainCloudComms2.h"
 #include "braincloud/internal/win/MD5.h"
 
 #include "braincloud/BrainCloudClient.h"

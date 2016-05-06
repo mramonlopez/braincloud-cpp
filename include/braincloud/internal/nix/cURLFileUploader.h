@@ -3,8 +3,12 @@
 
 #include <stdio.h>
 #if defined(WIN32)
+#include <WinSock2.h>
 #include <Windows.h>
+// compilers later than vs2010 define the timespec struct
+#if (_MSC_VER > 1600)
 #define HAVE_STRUCT_TIMESPEC 1
+#endif
 #endif
 #include <pthread.h>
 #include <string>

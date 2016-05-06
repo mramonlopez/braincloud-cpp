@@ -46,3 +46,11 @@ solutions/**/*.db
 solutions/**/*.opendb
 solutions/**/*.suo
 
+lib/win32/casablanca-staticlib
+
+#temp
+lib/curl
+
+cmake*
+**/__pycache__
+

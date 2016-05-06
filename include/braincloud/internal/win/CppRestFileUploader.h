@@ -4,7 +4,7 @@
 #include <thread>
 #include <mutex>
 #include <vector>
-#include <cpprest/http_client.h>
+#include "cpprest/http_client.h"
 #include "braincloud/internal/IFileUploader.h"
 
 

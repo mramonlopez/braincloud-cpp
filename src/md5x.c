@@ -51,7 +51,7 @@
   1999-05-03 lpd Original version.
  */
 
-#if !defined(WIN32) && !defined(WINAPI_FAMILY)
+#if !defined(WINAPI_FAMILY)
 
 #include "braincloud/internal/md5x.h"
 #include <string.h>
