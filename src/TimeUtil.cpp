@@ -96,6 +96,9 @@ namespace BrainCloud
 #if __cplusplus >= 201103L && !defined(__ANDROID__)
         auto sleep = std::chrono::milliseconds(millis);
         std::this_thread::sleep_for(sleep);
+#elif defined(WP8)
+		// sadly Sleep n/a on windows phone 8.0
+		WaitForSingleObjectEx(GetCurrentThread(), millis, TRUE);
 #elif defined (WIN32) || defined(WINAPI_FAMILY)
         Sleep(millis);
 #else

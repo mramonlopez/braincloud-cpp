@@ -3,7 +3,7 @@
 #if defined(__ANDROID__)
 
 #include <stdio.h>
-#include "BrainCloudClient.h"
+#include "braincloud/BrainCloudClient.h"
 
 using namespace BrainCloud;
 

@@ -45,7 +45,9 @@ solutions/**/packages
 solutions/**/*.db
 solutions/**/*.opendb
 solutions/**/*.suo
+solutions/**/bin
 
+# need to refine this
 lib/win32/casablanca-staticlib
 
 #temp
@@ -54,4 +56,3 @@ lib/curl
 cmake_*
 **/__pycache__
 autobuild/artifacts
-
