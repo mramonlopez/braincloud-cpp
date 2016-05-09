@@ -23,13 +23,13 @@ mkdir artifacts
 
 mkdir -p artifacts/linux_debug
 pushd artifacts/linux_debug
-cmake ../../../GameClientLib -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_CXX_COMPILER=/usr/bin/g++-4.4 -DCMAKE_C_COMPILER=/usr/bin/gcc-4.4
+cmake ../../.. -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_CXX_COMPILER=/usr/bin/g++-4.4 -DCMAKE_C_COMPILER=/usr/bin/gcc-4.4
 make
 popd
 
 mkdir -p artifacts/linux_release
 pushd artifacts/linux_release
-cmake ../../../GameClientLib -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_CXX_COMPILER=/usr/bin/g++-4.4 -DCMAKE_C_COMPILER=/usr/bin/gcc-4.4
+cmake ../../.. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_CXX_COMPILER=/usr/bin/g++-4.4 -DCMAKE_C_COMPILER=/usr/bin/gcc-4.4
 make
 popd
 
@@ -43,18 +43,18 @@ cp artifacts/linux_release/*.a artifacts/brainCloud/libs/release
 mkdir -p artifacts/brainCloud/thirdparty
 #mkdir -p artifacts/brainCloud/thirdparty/curl/include
 #cp -r "$ANDROID_FOLDER/cocos-curl/include/curl" artifacts/brainCloud/thirdparty/curl/include
-cp -r ../GameClientLib/lib/jsoncpp-1.0.0 artifacts/brainCloud/thirdparty
+cp -r ../lib/jsoncpp-1.0.0 artifacts/brainCloud/thirdparty
 
 mkdir artifacts/brainCloud/include
-cp -r ../GameClientLib/src/ApiHeaders/* artifacts/brainCloud/include
+cp -r ../include/* artifacts/brainCloud/include
 
 #cp -r "$ANDROID_FOLDER/cocos-curl/include/curl" artifacts/brainCloud/thirdparty/curl/include
 
 mkdir artifacts/brainCloud/src
-cp -r ../BrainCloudWrapper/* artifacts/brainCloud/src
-rm -f artifacts/brainCloud/src/*Android*
+#cp -r ../BrainCloudWrapper/* artifacts/brainCloud/src
+#rm -f artifacts/brainCloud/src/*Android*
 
-cp ../../Common/docs/README.TXT artifacts/brainCloud
+cp docs/README.TXT artifacts/brainCloud
 
 pushd artifacts
 zip -r "brainCloudClient_Linux_${platform_name}_C++_${build_version}.zip" brainCloud

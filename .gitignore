@@ -53,4 +53,5 @@ lib/curl
 
 cmake_*
 **/__pycache__
+autobuild/artifacts
 
