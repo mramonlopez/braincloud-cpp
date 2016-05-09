@@ -51,6 +51,6 @@ lib/win32/casablanca-staticlib
 #temp
 lib/curl
 
-cmake*
+cmake_*
 **/__pycache__
 

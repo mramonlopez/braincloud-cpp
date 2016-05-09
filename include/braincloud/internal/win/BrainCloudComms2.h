@@ -10,7 +10,6 @@
 
 namespace BrainCloud {
 
-    class Timer;
     class ServerCall;
     class BrainCloudClient;
 
@@ -43,7 +42,6 @@ namespace BrainCloud {
         virtual void flushCachedMessages(bool in_sendApiErrorCallbacks);
 
         virtual void clearSessionId() { _sessionId.clear(); }
-        void handleAlarm(Timer *);
         virtual void sendHeartbeat();
         virtual void resetCommunication();
         virtual void shutdown();

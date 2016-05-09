@@ -7,10 +7,8 @@ import subprocess
 import argparse
 import re
 
-#sys.path.append("../../../../../projGameLibs/Development/build/python")
 import vstudio
 import util
-
 
 
 def cleanArtifacts(in_artifactsPath):
@@ -26,7 +24,7 @@ def createVersionNumber():
     return output
 
 def stampVersion(in_version):
-	cppfile = "../GameClientLib/src/BrainCloudClient.cpp"; 
+	cppfile = "../src/BrainCloudClient.cpp"; 
 	with open("BrainCloudClient.tmp", "wt") as fout:
 		with open(cppfile, "rt") as fin:
 			for line in fin:
@@ -38,7 +36,7 @@ def stampVersion(in_version):
 	return
 
 def stampReadme(in_platform, in_version):
-	readmefile = "../../Common/docs/README.TXT"; 
+	readmefile = "docs/README.TXT"; 
 	with open("readme.tmp", "wt") as fout:
 		with open(readmefile, "rt") as fin:
 			for line in fin:
@@ -51,11 +49,11 @@ def stampReadme(in_platform, in_version):
 	return
 
 
-def buildWinApi(artifacts, version, rebuild):
+def buildWinDesktop(artifacts, version, rebuild):
 
 	# msbuild vars
 	projectPath = os.path.abspath("..")
-	projectFile = projectPath + os.sep + "GameClient_vs2013desktop_cpprest.sln"
+	projectFile = projectPath + os.sep + "solutions" + os.sep + "windowsDesktop_vc120" + os.sep + "brainCloud.sln"
 
 	if rebuild:
 		targets = "Rebuild"
@@ -70,48 +68,49 @@ def buildWinApi(artifacts, version, rebuild):
 	switches.append("/p:Platform=Win32")
 
 	# build release version of lib
-	config = "LIB Release"
+	config = "Release"
 	vstudio.buildProject(projectFile, targets, config, in_switches=switches)
 
 	# build debug version of lib
-	config = "LIB Debug"
+	config = "Debug"
 	vstudio.buildProject(projectFile, targets, config, in_switches=switches)
 
+	switches = []
+	switches.append("/p:Platform=x64")
+
+	# build release version of lib
+	config = "Release"
+	vstudio.buildProject(projectFile, targets, config, in_switches=switches)
+
+	# build debug version of lib
+	config = "Debug"
+	vstudio.buildProject(projectFile, targets, config, in_switches=switches)
+	
 	print()
 	print("Zipping library")
 
 	rootPath = os.path.abspath("..")
-	binPath = projectPath + os.sep + "GameClientLib" + os.sep + "bin" 
+	binPath = projectPath + os.sep + "brainCloud" + os.sep + "Output"
 
 	# zip up build directly from source files	
 	with zipfile.ZipFile(artifacts + os.sep + "brainCloudClient_WindowsDesktop_" + version + ".zip", "w", compression=zipfile.ZIP_DEFLATED) as myzip:
-		util.zipdir(rootPath + os.sep + "GameClientLib" + os.sep + "src" + os.sep + "ApiHeaders" + os.sep, myzip, "include")
-		util.zipdir(rootPath + os.sep + "BrainCloudWrapper", myzip, "src")
-
-		for fname in glob.iglob(binPath + os.sep + "Release" + os.sep + "*.lib"):
+		
+		for fname in glob.iglob(binPath + os.sep + "Win32" + os.sep + "Release" + os.sep + "*.*"):
 			myzip.write(fname, "lib" + os.sep + "release" + os.sep + os.path.basename(fname))
 
-		for fname in glob.iglob(binPath + os.sep + "Debug" + os.sep + "*.lib"):
+		for fname in glob.iglob(binPath + os.sep + "Win32" + os.sep + "Debug" + os.sep + "*.*"):
 			myzip.write(fname, "lib" + os.sep + "debug" + os.sep + os.path.basename(fname))
 
-		for fname in glob.iglob(binPath + os.sep + "Release" + os.sep + "*.pdb"):
+		for fname in glob.iglob(binPath + os.sep + "x64" + os.sep + "Release" + os.sep + "*.*"):
 			myzip.write(fname, "lib" + os.sep + "release" + os.sep + os.path.basename(fname))
 
-		for fname in glob.iglob(binPath + os.sep + "Debug" + os.sep + "*.pdb"):
+		for fname in glob.iglob(binPath + os.sep + "x64" + os.sep + "Debug" + os.sep + "*.*"):
 			myzip.write(fname, "lib" + os.sep + "debug" + os.sep + os.path.basename(fname))
-
-	#	for fname in glob.iglob(rootPath + os.sep + "GameClientLib" + os.sep + "lib" + os.sep + "pthread-w32-2-8-0" + os.sep + "Pre-built.2" + os.sep + "lib" + os.sep + "*.dll"):
-	#		myzip.write(fname, "bin" + os.sep + os.path.basename(fname))
-
-	#	myzip.write(projectPath + os.sep + "GameClientLib" + os.sep + "lib" + os.sep + "curl" + os.sep + "curl-7.21.6" +os.sep + "lib" + os.sep + "LIB-Release" + os.sep + "libcurl.lib", "lib" + os.sep + "release" + os.sep + "libcurl.lib")	
-
-	#	myzip.write(projectPath + os.sep + "GameClientLib" + os.sep + "lib" + os.sep + "curl" + os.sep + "curl-7.21.6" +os.sep + "lib" + os.sep + "LIB-Debug" + os.sep + "libcurld.lib", "lib" + os.sep + "debug" + os.sep + "libcurld.lib")	
-
-		util.zipdir(projectPath + os.sep + "GameClientLib" + os.sep + "lib" + os.sep + "jsoncpp-1.0.0", myzip, "thirdparty" + os.sep + "jsoncpp-src-0.6.0-rc2")
-
-		util.zipdir(projectPath + os.sep + "GameClientLib" + os.sep + "lib" + os.sep + "casablanca", myzip, "thirdparty" + os.sep + "casablanca")
-
-		myzip.write("../../Common/docs/README.TXT")
+		
+		util.zipdir(rootPath + os.sep + "include" + os.sep, myzip, "include")
+		util.zipdir(rootPath + os.sep + "lib" + os.sep + "jsoncpp-1.0.0", myzip, "thirdparty" + os.sep + "jsoncpp-1.0.0")
+		util.zipdir(rootPath + os.sep + "lib" + os.sep + "win32" + os.sep + "cpprestsdk-static", myzip, "thirdparty" + os.sep + "casablanca")
+		myzip.write("docs/README.TXT")
 	return
 
 
@@ -361,7 +360,7 @@ def buildWinAll(artifacts, version, rebuild):
 def main():
 
 	parser = argparse.ArgumentParser(description="Run the build")
-	parser.add_argument("--winApi", dest="buildWinApi", action="store_true", help="Build for win7 + win8 desktop")
+	parser.add_argument("--winDesktop", dest="buildWinDesktop", action="store_true", help="Build for win7 + win8 + win10 desktop")
 	parser.add_argument("--winStore", dest="buildWinStore", action="store_true", help="Build for windows 8/pro")
 	parser.add_argument("--winAll", dest="buildWinAll", action="store_true", help="Build for windows 8/pro")
 	parser.add_argument("--baseVersion", dest="baseVersion", action="store", required=True, help="Set the library version ie 1.5.0")
@@ -382,9 +381,9 @@ def main():
 	stampVersion(args.baseVersion)
 
 	# and our final library output folder
-	binPath = os.path.abspath(".." + os.pathsep + "bin")
-	if os.path.exists(binPath):
-		shutil.rmtree(binPath)
+#	binPath = os.path.abspath(".." + os.pathsep + "bin")
+#	if os.path.exists(binPath):
+#		shutil.rmtree(binPath)
 
 #	with open(artifacts + os.sep + "build.properties", "w") as f:
 #		f.write("build.version=" + version)
@@ -392,7 +391,7 @@ def main():
 #	with open(os.path.abspath(".." + os.sep + "Resources" + os.sep + "version.txt"), "w") as f:
 #		f.write(version)
 
-	if args.buildWinApi:
+	if args.buildWinDesktop:
 		stampReadme("Windows Desktop", version)
 		buildWinApi(artifacts, version, args.rebuild)
 
