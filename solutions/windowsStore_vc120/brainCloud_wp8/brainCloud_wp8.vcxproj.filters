@@ -19,6 +19,15 @@
     <Filter Include="src\win">
       <UniqueIdentifier>{6a3a0935-454d-492e-8a35-ae8c26d27bed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{59d594fd-d768-4812-b147-9bc83b2a7428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\jsoncpp">
+      <UniqueIdentifier>{edebc2ab-ecc2-4d8a-8324-4fc77504e67e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\jsoncpp\json">
+      <UniqueIdentifier>{09ed6b70-b02a-4d54-8c7f-485399b5cc18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\braincloud\AuthenticationType.h">
@@ -213,6 +222,12 @@
     <ClInclude Include="..\..\..\include\braincloud\internal\win\MD5.h">
       <Filter>include\braincloud\internal\win</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\lib\jsoncpp-1.0.0\json\json.h">
+      <Filter>lib\jsoncpp\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\lib\jsoncpp-1.0.0\json\json-forwards.h">
+      <Filter>lib\jsoncpp\json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\AuthenticationType.cpp">
@@ -376,6 +391,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\src\win\MD5.cpp">
       <Filter>src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\lib\jsoncpp-1.0.0\jsoncpp.cpp">
+      <Filter>lib\jsoncpp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

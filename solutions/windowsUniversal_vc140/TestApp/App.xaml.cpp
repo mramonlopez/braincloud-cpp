@@ -100,9 +100,7 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
     }
 
 	BrainCloudClient * bcc = BrainCloudClient::getInstance();
-	bcc->initialize("https://internal.braincloudservers.com/dispatcherv2", "7759e5a4-f5cd-4f45-9285-31ea6b23041e", "20599", "1.0.0");
 	bcc->enableLogging(true);
-	bcc->getAuthenticationService()->authenticateUniversal("abc", "abc", true);
 }
 
 /// <summary>

@@ -34,19 +34,22 @@ def getMSBuildPath(in_path):
 def buildProject(in_projectPath, in_targets, in_configuration, in_switches=None, in_msbuildPath=None):
 	checkPlatform()	
 
-	msbuildPath = getMSBuildPath(in_msbuildPath)
+	#msbuildPath = getMSBuildPath(in_msbuildPath)
+	msbuildPath = "MSBuild.exe"
 
 	print()
 	print("Building Visual Studio Project")
 	print("  Project path: " + in_projectPath)
 	print("  Targets: " + in_targets)
+	if not in_switches is None:
+		print("  Switches: " + "".join(in_switches))
 	print("  MSBuild path: " + msbuildPath)
 
 	cmd = []
 	cmd.append(msbuildPath)
 
 	if not in_switches is None:
-		cmd.append(in_switches)
+		cmd.extend(in_switches)
 
 	cmd.append("/p:Configuration=" + in_configuration)
 	if not in_targets is None:

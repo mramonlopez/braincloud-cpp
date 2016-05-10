@@ -91,8 +91,11 @@
     <ClInclude Include="..\..\..\include\braincloud\ServerCall.h" />
     <ClInclude Include="..\..\..\include\braincloud\ServiceName.h" />
     <ClInclude Include="..\..\..\include\braincloud\ServiceOperation.h" />
+    <ClInclude Include="..\..\..\lib\jsoncpp-1.0.0\json\json-forwards.h" />
+    <ClInclude Include="..\..\..\lib\jsoncpp-1.0.0\json\json.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\lib\jsoncpp-1.0.0\jsoncpp.cpp" />
     <ClCompile Include="..\..\..\src\AuthenticationType.cpp" />
     <ClCompile Include="..\..\..\src\BrainCloudAsyncMatch.cpp" />
     <ClCompile Include="..\..\..\src\BrainCloudAuthentication.cpp" />

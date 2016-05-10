@@ -46,6 +46,7 @@ solutions/**/*.db
 solutions/**/*.opendb
 solutions/**/*.suo
 solutions/**/bin
+solutions/**/AppPackages
 
 # need to refine this
 lib/win32/casablanca-staticlib
