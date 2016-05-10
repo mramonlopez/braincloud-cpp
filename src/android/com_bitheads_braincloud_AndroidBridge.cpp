@@ -1,4 +1,4 @@
-#include "com_bitheads_braincloud_AndroidBridge.h"
+#include "braincloud/internal/android/com_bitheads_braincloud_AndroidBridge.h"
 
 #if defined(__ANDROID__)
 

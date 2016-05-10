@@ -23,6 +23,9 @@ Pods/
 
 # solutions files
 
+## android
+solutions/android/obj
+
 ## marmalade
 solutions/marmalade/build*
 solutions/marmalade/data/app.config.txt
@@ -51,9 +54,8 @@ solutions/**/AppPackages
 # need to refine this
 lib/win32/casablanca-staticlib
 
-#temp
-lib/curl
-
+# various build artifacts
 cmake_*
 **/__pycache__
 autobuild/artifacts
+*.swp
