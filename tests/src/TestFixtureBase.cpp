@@ -100,14 +100,17 @@ void TestFixtureBase::LoadIds()
     if (fp == NULL)
     {
         // new tactic - hardcode the bloody thing!!!
-        printf("ERROR: Failed to load ids.txt file! Hardcoding the parameters!\n");
-
-        m_serverUrl = "https://internal.braincloudservers.com/dispatcherv2";
-        m_appId = "20001";
-        m_secret = "4e51b45c-030e-4f21-8457-dc53c9a0ed5f";
-        m_version = "1.0.0";
-        m_childAppId = "20005";
-        m_parentLevelName = "Master";
+		printf("ERROR: Failed to load ids.txt file!\n");
+		
+		exit(1);
+		/* hardcode the parameters below if necessary
+        m_serverUrl = "";
+        m_appId = "";
+        m_secret = "";
+        m_version = "";
+        m_childAppId = "";
+        m_parentLevelName = "";
+		*/
     }
     else
     {

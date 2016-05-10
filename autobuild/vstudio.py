@@ -12,16 +12,6 @@ def checkPlatform():
 		raise Exception("Visual Studio scripts are only available on windows!")
 	return
 
-
-def getMSBuildPath(in_path):
-	ret = in_path
-	if (in_path is None):
-		# assume 2013 for now
-		ret = "C:\\Program Files (x86)\\MSBuild\\12.0\\bin\\MSBuild.exe"
-			
-	return ret
-
-
 #
 # Method runs msbuild for the given project and targets
 #
@@ -34,7 +24,7 @@ def getMSBuildPath(in_path):
 def buildProject(in_projectPath, in_targets, in_configuration, in_switches=None, in_msbuildPath=None):
 	checkPlatform()	
 
-	#msbuildPath = getMSBuildPath(in_msbuildPath)
+	# we assume vcvarsall.bat was called to set the path appropriately
 	msbuildPath = "MSBuild.exe"
 
 	print()
@@ -61,4 +51,3 @@ def buildProject(in_projectPath, in_targets, in_configuration, in_switches=None,
 
 	subprocess.check_call(cmd)
 	return
-

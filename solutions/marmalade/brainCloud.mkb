@@ -30,16 +30,15 @@ option
   #  cxx11
 }
 
-includepath 
+includepath
 {
-    ../../GameClientLib/src/ApiHeaders
-    ../../GameClientLib/src/HGEngine
-    ../../GameClientLib/src/HTTP
+    ../../include
 }
 
 files
 {
-    (../../GameClientLib/src/ApiHeaders)
+    (../../include/braincloud)
+    AuthenticationType.h
     BrainCloudAsyncMatch.h
     BrainCloudAuthentication.h
     BrainCloudClient.h
@@ -70,10 +69,12 @@ files
     BrainCloudTime.h
     BrainCloudTwitter.h
     BrainCloudTypes.h
+    BrainCloudWrapper.h
     FriendPlatform.h
-    IBrainCloudComms.h
     IEventCallback.h
     IFileUploadCallback.h
+    IGlobalErrorCallback.h
+    INetworkErrorCallback.h
     IRewardCallback.h
     IServerCallback.h
     OperationParam.h
@@ -83,14 +84,38 @@ files
     ServiceOperation.h
     http_codes.h
     reason_codes.h
-    
-    (../../GameClientLib/src)
-    BrainCloudClient.cpp
+
+    (../../include/braincloud/internal)
+    BrainCloudComms.h
+    GUID.h
+    IBrainCloudComms.h
+    IFileUploader.h
+    JsonUtil.h
+    SaveDataHelper.h
+    StringUtil.h
+    TimeUtil.h
+    Timer.h
+    TimerCallback.h
+    URLLoader.h
+    URLLoaderClient.h
+    URLRequest.h
+    URLRequestHeader.h
+    URLRequestMethod.h
+    URLResponse.h
+    md5x.h
+
+    (../../include/braincloud/internal/marmalade)
+    IwHttpLoader.h
+
+    (../../include/braincloud/internal/win)
+    MD5.h
+
+    (../../src)
+    AuthenticationType.cpp
     BrainCloudAsyncMatch.cpp
     BrainCloudAuthentication.cpp
     BrainCloudClient.cpp
     BrainCloudComms.cpp
-    BrainCloudComms.h
     BrainCloudDataStream.cpp
     BrainCloudEntity.cpp
     BrainCloudEvent.cpp
@@ -117,47 +142,32 @@ files
     BrainCloudSteam.cpp
     BrainCloudTime.cpp
     BrainCloudTwitter.cpp
+    BrainCloudWrapper.cpp
     FriendPlatform.cpp
     GUID.cpp
-    GUID.h
     IBrainCloudComms.cpp
     JsonUtil.cpp
-    JsonUtil.h
-    MD5.cpp
-    MD5.h
     OperationParam.cpp
-    PantheiosStub.h
     Platform.cpp
+    SaveDataHelper.cpp
     ServerCall.cpp
     ServiceName.cpp
     ServiceOperation.cpp
     StringUtil.cpp
-    StringUtil.h
-    TimeUtil.h
     TimeUtil.cpp
-    
-    (../../GameClientLib/src/HGEngine)
-    md5x.c
-    md5x.h
-
-    (../../GameClientLib/src/HTTP)
-    IFileUploader.h
+    Timer.cpp
+    TimerCallback.cpp
     URLLoader.cpp
-    URLLoader.h
     URLLoaderClient.cpp
-    URLLoaderClient.h
     URLRequest.cpp
-    URLRequest.h
     URLRequestHeader.cpp
-    URLRequestHeader.h
     URLRequestMethod.cpp
-    URLRequestMethod.h
     URLResponse.cpp
-    URLResponse.h
-    #cURLFileUploader.cpp
-    #cURLFileUploader.h
-    #cURLLoader.cpp
-    #cURLLoader.h
+    md5x.c
+
+    (../../src/marmalade)
     IwHttpLoader.cpp
-    IwHttpLoader.h
+
+    (../../src/win)
+    MD5.cpp
 }

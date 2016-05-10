@@ -70,10 +70,10 @@ xcopy /y /i ..\..\solutions\marmalade\brainCloud.mkb brainCloud
 xcopy /y /i ..\..\solutions\marmalade\brainCloud_package.mkf brainCloud
 xcopy /y /i ..\..\solutions\marmalade\README.txt brainCloud
 xcopy /s /i /y ..\..\solutions\marmalade\lib brainCloud\lib
-xcopy /s /i /y ..\..\GameClientLib\src\ApiHeaders brainCloud\ApiHeaders
+xcopy /s /i /y ..\..\include brainCloud\include
 
 move brainCloud\brainCloud_package.mkf brainCloud\brainCloud.mkf
-move brainCloud\ApiHeaders brainCloud\h
+move brainCloud\include brainCloud\h
 
 "C:\Program Files (x86)\7-Zip\7z.exe" a "brainCloudClient_Marmalade_C++_%build_version%.zip" brainCloud
 

@@ -11,14 +11,14 @@
 #   include <iostream>
 #endif
 #include <cctype>
-#include "IwHttpLoader.h"
-#include "URLRequestMethod.h"
-#include "http_codes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <IwHTTP.h>
 #include <iostream>
+#include "braincloud/http_codes.h"
+#include "braincloud/internal/URLRequestMethod.h"
+#include "braincloud/internal/marmalade/IwHttpLoader.h"
 
 namespace BrainCloud
 {

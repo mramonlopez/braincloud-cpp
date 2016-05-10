@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <string>
 
-#include "URLLoader.h"
+#include "braincloud/internal/URLLoader.h"
 
 #ifndef WIN32
 #include <sys/types.h>

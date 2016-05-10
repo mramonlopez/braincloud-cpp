@@ -1,8 +1,8 @@
-includepath 
+includepath
 {
     h
 }
- 
+
 library
 {
     ".,brainCloud"
@@ -24,10 +24,11 @@ subprojects
     iwhttp
     jsoncpp
 }
- 
+
 files
 {
     (h)
+    AuthenticationType.h
     BrainCloudAsyncMatch.h
     BrainCloudAuthentication.h
     BrainCloudClient.h
@@ -58,9 +59,12 @@ files
     BrainCloudTime.h
     BrainCloudTwitter.h
     BrainCloudTypes.h
-    IBrainCloudComms.h
+    BrainCloudWrapper.h
+    FriendPlatform.h
     IEventCallback.h
     IFileUploadCallback.h
+    IGlobalErrorCallback.h
+    INetworkErrorCallback.h
     IRewardCallback.h
     IServerCallback.h
     OperationParam.h

@@ -24,15 +24,15 @@ option
   #  cxx11
 }
 
-includepath 
+includepath
 {
-    ../../UnitTest/src
-    ../../UnitTest/gtest-1.7.0/include
+    ../../tests/src
+    ../../tests/gtest-1.7.0/include
 }
 
 files
 {
-    (../../UnitTest/src)
+    (../../tests/src)
     TestBCAsyncMatch.cpp
     TestBCAsyncMatch.h
     TestBCAuth.cpp
@@ -87,6 +87,8 @@ files
     TestBCSocialLeaderboard.h
     TestBCTime.cpp
     TestBCTime.h
+    TestBCWrapper.cpp
+    TestBCWrapper.h
     TestFixtureBase.cpp
     TestFixtureBase.h
     TestResult.cpp

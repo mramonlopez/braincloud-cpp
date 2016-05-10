@@ -1,8 +1,8 @@
-includepath 
+includepath
 {
-    ../../GameClientLib/src/ApiHeaders
+    ../../include
 }
- 
+
 library
 {
     ".,brainCloud"
@@ -24,10 +24,11 @@ subprojects
     iwhttp
     jsoncpp
 }
- 
+
 files
 {
-    (../../GameClientLib/src/ApiHeaders)
+    (../../include/braincloud)
+    AuthenticationType.h
     BrainCloudAsyncMatch.h
     BrainCloudAuthentication.h
     BrainCloudClient.h
@@ -58,10 +59,12 @@ files
     BrainCloudTime.h
     BrainCloudTwitter.h
     BrainCloudTypes.h
+    BrainCloudWrapper.h
     FriendPlatform.h
-    IBrainCloudComms.h
     IEventCallback.h
     IFileUploadCallback.h
+    IGlobalErrorCallback.h
+    INetworkErrorCallback.h
     IRewardCallback.h
     IServerCallback.h
     OperationParam.h
