@@ -50,21 +50,29 @@ nuget {
 	// the files that go into the content folders
 	// (inserted into the nuspec file)
 	files {
-		include += { 
-			..\..\GameClientLib\src\ApiHeaders\*.h,
+		nestedInclude1: { 
+			#destination = ${d_include}braincloud;
+			"..\..\include\braincloud\*.h"
 		};
-			
-		nestedInclude: {
-			#destination = ${d_include}\json;
-			"..\..\GameClientLib\lib\jsoncpp-1.0.0\json\json.h"
+		
+		nestedInclude2 += { 
+			#destination = ${d_include}braincloud\internal;
+			"..\..\include\braincloud\internal\*.h"
+		};
+		
+		nestedInclude3: { 
+			#destination = ${d_include}braincloud\internal\win;
+			"..\..\include\braincloud\internal\win\*.h"
+		};
+		
+		nestedIncludeJson: {
+			#destination = ${d_include}json;
+			"..\..\lib\jsoncpp-1.0.0\json\json.h"
 		};
 	   
 		source:  { 
-			..\..\GameClientLib\src\*.cpp,
-			..\..\GameClientLib\src\*.h,
-			..\..\GameClientLib\src\HTTP\*.cpp,
-			..\..\GameClientLib\src\HTTP\*.h,
-			..\..\GameClientLib\lib\jsoncpp-1.0.0\*.cpp
+			"..\..\src\*.cpp",
+			"..\..\src\win\*.cpp"
 		};
 
 		docs: { 

@@ -217,7 +217,16 @@ def buildWinUwp(artifacts, version, rebuild):
 	print("Building windows universal project")
 	print()
 	sys.stdout.flush()
+
+	# first restore nuget packages
+	cwd = projectPath + os.sep + "solutions" + os.sep + "windowsUniversal_vc140"
+	cmd = []
+	cmd.append("nuget")
+	cmd.append("restore")
+	print("Restoring nuget packages...")
+	subprocess.check_call(cmd, cwd=cwd)
 	
+	# now build it
 	switches = []
 	switches.append("/p:Platform=x86")
 
