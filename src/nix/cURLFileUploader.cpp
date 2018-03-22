@@ -40,7 +40,7 @@ namespace BrainCloud
 {
     IFileUploader* IFileUploader::create()
     {
-        return cURLFileUploader();
+        return new cURLFileUploader();
     }
 
     bool cURLFileUploader::_loggingEnabled = false;

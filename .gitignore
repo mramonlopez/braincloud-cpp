@@ -71,3 +71,13 @@ Debug/
 Win32/
 *.dir/
 *.sln
+
+# Linux
+*.a
+ids.txt
+Makefile
+
+# tests artifacts
+tests/bctests
+tests/uploadsimplefile.txt
+
