@@ -189,6 +189,11 @@
 
 namespace BrainCloud
 {
+	IFileUploader* IFileUploader::create()
+	{
+		return new NSFileUploader();
+	}
+
     bool NSFileUploader::_loggingEnabled = false;
     
     NSFileUploader::NSFileUploader()

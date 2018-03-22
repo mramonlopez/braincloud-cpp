@@ -11,10 +11,6 @@
 #include "braincloud/reason_codes.h"
 #include "braincloud/http_codes.h"
 
-#if defined(__APPLE__) && !defined(HG_PLATFORM_BB)
-#include "TargetConditionals.h"
-#endif
-
 #include "braincloud/internal/IFileUploader.h"
 #include "braincloud/BrainCloudClient.h"
 #include "braincloud/internal/BrainCloudComms.h"
@@ -22,15 +18,6 @@
 
 #if defined (IW_SDK)
 #include "braincloud/internal/marmalade/IwHttpLoader.h"
-#elif (__APPLE__)
-#include "braincloud/internal/mac/nsURLLoader.h"
-#include "braincloud/internal/mac/nsFileUploader.h"
-#elif defined(USE_CURL)
-#include "braincloud/internal/nix/cURLLoader.h"
-#include "braincloud/internal/nix/cURLFileUploader.h"
-#elif defined(WIN32)
-#include "braincloud/internal/win/XMLHTTPRequestLoader.h"
-#include "braincloud/internal/win/XMLHTTPRequestFileUploader.h"
 #endif
 
 namespace BrainCloud
@@ -1045,18 +1032,12 @@ namespace BrainCloud
 	// we assume loader mutex has been locked and var is null etc
 	void BrainCloudComms::startHttpRequest()
 	{
-#if defined (IW_SDK)
-		_loader = new IwHttpLoader();
-		//#elif (TARGET_OS_WATCH == 1)
-#elif (__APPLE__)
-		_loader = new nsURLLoader();
-#elif defined(USE_CURL)
-		_loader = new cURLLoader();
-#elif defined(WIN32)
-        _loader = new XMLHTTPRequestLoader();
-#endif
-		_loader->setTimeout((int)getRetryTimeoutMillis(_retryCount));
-		_loader->load(_request);
+        _loader = URLLoader::create();
+        if (_loader)
+        {
+            _loader->setTimeout((int)getRetryTimeoutMillis(_retryCount));
+            _loader->load(_request);
+        }
 
 		_packetSendTimeMillis = TimeUtil::getCurrentTimeMillis();
 		_retryTimeMillis = RETRY_TIME_NOT_RETRYING;
@@ -1160,26 +1141,20 @@ namespace BrainCloud
             return;
 		}
 
-#if defined (IW_SDK)
-		std::cerr << "#BCC File upload operations not supported in Marmalade" << std::endl;
-#else
-#if defined (__APPLE__)
-		NSFileUploader *uploader = new NSFileUploader();
-#elif defined(USE_CURL)
-        cURLFileUploader *uploader = new cURLFileUploader();
-#elif defined(WIN32)
-        XMLHTTPRequestFileUploader *uploader = new XMLHTTPRequestFileUploader();
-#endif
-		uploader->enableLogging(_loggingEnabled);
-		uploader->setUploadLowTransferRateThreshold(_uploadLowTransferRateThresholdBytesPerSec);
-		uploader->setUploadLowTransferRateTimeout(_uploadLowTransferRateTimeoutSecs);
-		_fileUploads[fileUploadId] = uploader;
-		if (!uploader->uploadFile(_sessionId, fileUploadId, localPath, fileSize, _uploadUrl))
-		{
-			_fileUploads.erase(_fileUploads.find(fileUploadId));
-			delete uploader;
-		}
-#endif
+        IFileUploader* uploader = IFileUploader::create();
+        if (uploader)
+        {
+            uploader->enableLogging(_loggingEnabled);
+            uploader->setUploadLowTransferRateThreshold(_uploadLowTransferRateThresholdBytesPerSec);
+            uploader->setUploadLowTransferRateTimeout(_uploadLowTransferRateTimeoutSecs);
+            _fileUploads[fileUploadId] = uploader;
+            if (!uploader->uploadFile(_sessionId, fileUploadId, localPath, fileSize, _uploadUrl))
+            {
+                _fileUploads.erase(_fileUploads.find(fileUploadId));
+                delete uploader;
+            }
+        }
+
         _mutex.unlock();
     }
 

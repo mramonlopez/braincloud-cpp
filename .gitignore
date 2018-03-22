@@ -61,3 +61,13 @@ autobuild/artifacts
 autobuild/tmp
 *.swp
 CMakeFiles/
+CMakeCache.txt
+
+# visual studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+Debug/
+Win32/
+*.dir/
+*.sln
