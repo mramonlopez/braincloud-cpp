@@ -22,16 +22,13 @@
 #include <string.h>
 #import <Foundation/Foundation.h>
 
-bool nsURLLoader::_initialized = false;
-long nsURLLoader::_timeoutInterval = 0;
-
 @interface URLSessionDelegate () {
-    nsURLLoader* _urlLoader;
+    BrainCloud::nsURLLoader* _urlLoader;
     NSURLSession *_session;
 }
 @end
 @implementation URLSessionDelegate
-- (instancetype)initWithLoader:(nsURLLoader*) loader
+- (instancetype)initWithLoader:(BrainCloud::nsURLLoader*) loader
 {
     self = [super init];
     if (self) {
@@ -242,6 +239,9 @@ namespace BrainCloud
 	{
 		return new nsURLLoader();
 	}
+
+    bool nsURLLoader::_initialized = false;
+    long nsURLLoader::_timeoutInterval = 0;
 
 	/**
 	 * Constructor
