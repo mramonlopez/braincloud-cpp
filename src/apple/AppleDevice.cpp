@@ -3,7 +3,7 @@
 #include <CoreFoundation/CFLocale.h>
 #include <CoreFoundation/CFString.h>
 #include <CoreFoundation/CFTimeZone.h>
-#include <TargetConditional.h>
+#include <TargetConditionals.h>
 
 #if TARGET_OS_IOS
 static const std::string PLATFORM_NAME("IOS");

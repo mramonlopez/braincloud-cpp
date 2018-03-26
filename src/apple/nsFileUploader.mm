@@ -13,7 +13,7 @@
 
 #import <Foundation/Foundation.h>
 #include <TargetConditionals.h>
-#include "braincloud/internal/mac/nsFileUploader.h"
+#include "braincloud/internal/apple/nsFileUploader.h"
 #include "braincloud/http_codes.h"
 #include "braincloud/reason_codes.h"
 #include "braincloud/internal/IBrainCloudComms.h"

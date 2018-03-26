@@ -1,11 +1,11 @@
-#ifndef _WINDOWSSAVEDATAHELPER_H_
-#define _WINDOWSSAVEDATAHELPER_H_
+#ifndef _APPLESAVEDATAHELPER_H_
+#define _APPLESAVEDATAHELPER_H_
 
 #include "braincloud/internal/SaveDataHelper.h"
 
 namespace BrainCloud
 {
-    class WindowsSaveDataHelper : public SaveDataHelper
+    class AppleSaveDataHelper : public SaveDataHelper
     {
     public:
         virtual void initialize(const char * companyName, const char * appName, const char * wrapperName = "");
@@ -17,7 +17,7 @@ namespace BrainCloud
     protected:
         friend class SaveDataHelper;
 
-        WindowsSaveDataHelper();
+        AppleSaveDataHelper();
 
     private:
         std::string m_savePath;

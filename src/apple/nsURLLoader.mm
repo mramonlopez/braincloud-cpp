@@ -14,7 +14,7 @@
 #include <ctype.h>
 #endif
 
-#include "braincloud/internal/mac/nsURLLoader.h"
+#include "braincloud/internal/apple/nsURLLoader.h"
 #include "braincloud/internal/URLRequestMethod.h"
 #include "braincloud/http_codes.h"
 #include <stdio.h>
