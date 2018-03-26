@@ -29,16 +29,6 @@ Pods/
 ## android
 solutions/android/obj
 
-## marmalade
-solutions/marmalade/build*
-solutions/marmalade/data/app.config.txt
-solutions/marmalade/data/development.icf
-solutions/marmalade/data/ident.free
-solutions/marmalade/data-ram
-solutions/marmalade/googletest/build*
-solutions/marmalade/googletest/lib*
-solutions/marmalade/lib
-
 ## nuget
 solutions/**/*.nupkg
 
@@ -80,4 +70,3 @@ Makefile
 # tests artifacts
 tests/bctests
 tests/uploadsimplefile.txt
-
