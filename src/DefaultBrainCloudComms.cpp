@@ -81,7 +81,27 @@ namespace BrainCloud
 				delete _loader;
 				_loader = NULL;
 			}
-		}
+            else
+            {
+#if defined(IW_SDK)
+                //TODO: Move this into the request. Like we did in IXMLHttpRequestLoader which has a timeout in a thread
+                // iwhttp doesn't have a timeout mechanism so we have to monitor ourselves
+                // and cancel the request if it goes over the retry timeout
+                int64_t currentTimeMillis = TimeUtil::getCurrentTimeMillis();
+                int64_t retryTimeout = (int64_t)(getRetryTimeoutMillis(_retryCount));
+                if (currentTimeMillis >= _packetSendTimeMillis + retryTimeout)
+                {
+                    if (_loggingEnabled)
+                    {
+                        std::cout << "#BCC Cancelling packet " << _expectedPacketId << " as we've exceeded timeout " << retryTimeout << std::endl;
+                    }
+
+                    // cancel the request and let the next tick handle it
+                    _loader->close();
+                }
+#endif
+            }
+        }
 		else
 		{
 			int64_t currentTimeMillis = TimeUtil::getCurrentTimeMillis();
