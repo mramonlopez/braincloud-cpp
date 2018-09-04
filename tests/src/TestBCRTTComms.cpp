@@ -86,18 +86,18 @@ TEST_F(TestBCRTTComms, EnableDisableRTTWithTCP)
 	tr.run(m_bc);
 }
 
-// TEST_F(TestBCRTTComms, EnableDisableRTTWithWS)
-// {
-// 	TestResult tr;
+TEST_F(TestBCRTTComms, EnableDisableRTTWithWS)
+{
+	TestResult tr;
 
-// 	m_bc->enableRTT(&tr, true);
-// 	tr.run(m_bc);
+	m_bc->enableRTT(&tr, true);
+	tr.run(m_bc);
 
-//     // disable, then re-enable. Should still succeed
-//     m_bc->disableRTT();
-// 	m_bc->enableRTT(&tr, true);
-// 	tr.run(m_bc);
-// }
+    // disable, then re-enable. Should still succeed
+    m_bc->disableRTT();
+	m_bc->enableRTT(&tr, true);
+	tr.run(m_bc);
+}
 
 TEST_F(TestBCRTTComms, RTTChatCallback)
 {

@@ -4,6 +4,7 @@
 #include "braincloud/IRTTCallback.h"
 #include "braincloud/IRTTConnectCallback.h"
 #include "braincloud/internal/ITCPSocket.h"
+#include "braincloud/internal/IWebSocket.h"
 #include "braincloud/internal/TimeUtil.h"
 
 #include <iostream>
@@ -38,7 +39,6 @@ namespace BrainCloud
         , _receivingRunning(false)
         , _heartbeatRunning(false)
 		, _useWebSocket(true)
-		, _webSocketClient(NULL)
 		, _heartbeatSeconds(30)
 		, _lastHeartbeatTime(0)
 	{
@@ -101,12 +101,6 @@ namespace BrainCloud
 
             delete _socket;
             _socket = NULL;
-        }
-
-        if (_webSocketClient)
-        {
-            delete _webSocketClient;
-            _webSocketClient = NULL;
         }
     }
 
@@ -242,15 +236,7 @@ namespace BrainCloud
             }
 
 			_auth = data["auth"];
-
-			if (_useWebSocket)
-			{
-				// connectWebSocket();
-			}
-			else
-			{
-				connect();
-			}
+			connect();
 		}
 	}
 
@@ -313,8 +299,25 @@ namespace BrainCloud
 			int port = _endpoint["port"].asInt();
 
             {
-                std::unique_lock<std::mutex> lock(_socketMutex);
-                _socket = ITCPSocket::create(host, port);
+                {
+                    std::unique_lock<std::mutex> lock(_socketMutex);
+                    if (_useWebSocket)
+                    {
+                        if (_endpoint["ssl"].asBool())
+                        {
+                            host = "wss://" + host;
+                        }
+                        else
+                        {
+                            host = "ws://" + host;
+                        }
+                        _socket = IWebSocket::create(host, port);
+                    }
+                    else
+                    {
+                        _socket = ITCPSocket::create(host, port);
+                    }
+                }
                 if (!_socket->isValid())
                 {
                     closeSocket();

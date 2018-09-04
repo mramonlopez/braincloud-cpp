@@ -18,7 +18,7 @@ namespace BrainCloud
 	class BrainCloudWSSocket;
 	class IRTTConnectCallback;
 	class IRTTCallback;
-	class ITCPSocket;
+	class ISocket;
 	class IWebSocket;
 
 	class RTTComms : public IServerCallback
@@ -98,7 +98,7 @@ namespace BrainCloud
 		Json::Value _auth;
 		Json::Value _endpoint;
 
-		ITCPSocket* _socket;
+		ISocket* _socket;
 		std::atomic<bool> _isConnected;
         std::mutex _socketMutex;
         std::condition_variable _threadsCondition;
@@ -108,7 +108,6 @@ namespace BrainCloud
         std::atomic<bool> _heartbeatRunning;
 
 		bool _useWebSocket;
-		IWebSocket* _webSocketClient;
 
 		int _heartbeatSeconds;
 		int64_t _lastHeartbeatTime;

@@ -44,6 +44,16 @@ if (NOT USE_CPPREST AND NOT VS2013_OR_HIGHER AND NOT APPLE)
 	set(USE_PTHREAD 1)
 endif()
 
+# On non-windows platform, lets use websocket library websocketpp
+# if (NOT WIN32) # test on windows also for now
+    set(USE_WEBSOCKETPP 1)
+    # if (WIN32)
+    #     set(OPENSSL_ROOT_DIR C:/openssl)
+    #     set(OPENSSL_INCLUDE_DIR C:/openssl/include)
+    #     set(OPENSSL_LIBRARIES C:/openssl/lib)
+    # endif()
+# endif()
+
 #=============================================================================
 # Compiler flags
 #=============================================================================
@@ -108,6 +118,13 @@ else()
     list(APPEND OS_SPECIFIC_INCS
         "include/braincloud/internal/DefaultBrainCloudComms.h")
 	list(APPEND OS_SPECIFIC_SRCS "src/DefaultBrainCloudComms.cpp")
+endif()
+
+if (USE_WEBSOCKETPP)
+    list(APPEND OS_SPECIFIC_INCS
+        "include/braincloud/internal/DefaultWebSocket.h")
+    list(APPEND OS_SPECIFIC_SRCS
+        "src/DefaultWebSocket.cpp")
 endif()
 
 # other platform specific srcs/includes
@@ -301,7 +318,7 @@ if (APPLE)
 	find_library(BC_FOUNDATION_LIB Foundation)
 	find_library(BC_SYSCONFIG_LIB SystemConfiguration)
 	find_library(BC_SECURITY_LIB Security)
-    target_link_libraries(brainCloud 
+    list(APPEND libs 
         ${BC_GAMEKIT_LIB}
         ${BC_COREFOUNDATION_LIB}
         ${BC_FOUNDATION_LIB}
@@ -314,7 +331,7 @@ elseif (LINUX)
     find_package(UUID REQUIRED)
 	list(APPEND includes PUBLIC ${UUID_INCLUDE_DIRS})
 
-    target_link_libraries(brainCloud PUBLIC
+    list(APPEND libs
         ${CURL_LIBRARIES}
         ${UUID_LIBRARIES})
 elseif (WIN32)
@@ -337,7 +354,7 @@ elseif (WIN32)
 		find_library(BC_BCRYPT_LIB bcrypt.lib ${WIN_PLATFORM_DIR})
 		find_library(BC_CRYPT32_LIB crypt32.lib ${WIN_PLATFORM_DIR})
 
-        target_link_libraries(brainCloud general
+        list(APPEND libs general
             ${BC_WINHTTP_LIB}
             ${BC_BCRYPT_LIB}
             ${BC_CRYPT32_LIB}
@@ -346,7 +363,7 @@ elseif (WIN32)
 	else()
 		if (VS2013_OR_HIGHER)
             find_package(Socket)
-            target_link_libraries(brainCloud PUBLIC
+            list(APPEND libs
                 msxml6
                 comsuppwd
                 ${Socket_LIBRARIES})
@@ -364,7 +381,7 @@ elseif (WIN32)
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
             find_library(BC_CURL_LIB_DEBUG libcurl_a_debug.lib
                 "${BC_DIR}/lib/win32/curl-7.44.0/lib")
-            target_link_libraries(brainCloud general
+            list(APPEND libs general
                 ${Socket_LIBRARIES}
                 ${BC_PTHREADW32_LIB}
                 optimized ${BC_CURL_LIB_RELEASE}
@@ -373,4 +390,33 @@ elseif (WIN32)
 	endif()
 endif()
 
+# WebSocket++
+if (USE_WEBSOCKETPP)
+    # WebSocket++
+    add_definitions(-D_WEBSOCKETPP_CPP11_STL_)
+    list(APPEND includes PUBLIC ./lib/websocketpp/)
+
+    # OpenSSL
+    set(OPENSSL_USE_STATIC_LIBS TRUE)
+    find_package(OpenSSL REQUIRED)
+    list(APPEND includes PUBLIC ${OPENSSL_INCLUDE_DIR})
+    list(APPEND libs 
+        ${OPENSSL_SSL_LIBRARY}
+        ${OPENSSL_CRYPTO_LIBRARY})
+    if (WIN32)
+        list(APPEND libs
+            WS2_32.LIB
+            GDI32.LIB
+            ADVAPI32.LIB
+            CRYPT32.LIB
+            USER32.LIB
+            legacy_stdio_definitions.lib)
+    endif()
+
+    # Asio
+    list(APPEND includes PUBLIC ./lib/asio/asio/include/)
+endif()
+
+# Setup includes and linked libraries
 target_include_directories(brainCloud PUBLIC "${BC_DIR}/include" ${includes})
+target_link_libraries(brainCloud PUBLIC ${libs})
