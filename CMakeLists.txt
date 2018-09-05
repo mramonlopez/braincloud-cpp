@@ -46,7 +46,7 @@ endif()
 
 # On non-windows platform, lets use websocket library websocketpp
 # if (NOT WIN32) # test on windows also for now
-    set(USE_WEBSOCKETPP 1)
+    set(USE_LIBWEBSOCKETS 1)
     # if (WIN32)
     #     set(OPENSSL_ROOT_DIR C:/openssl)
     #     set(OPENSSL_INCLUDE_DIR C:/openssl/include)
@@ -390,31 +390,30 @@ elseif (WIN32)
 	endif()
 endif()
 
-# WebSocket++
-if (USE_WEBSOCKETPP)
-    # WebSocket++
-    add_definitions(-D_WEBSOCKETPP_CPP11_STL_)
-    list(APPEND includes PUBLIC ./lib/websocketpp/)
+# LibWebSockets
+if (USE_LIBWEBSOCKETS)
+    # LibWebSocket
+    # list(APPEND includes PUBLIC ./lib/websocketpp/)
 
     # OpenSSL
-    set(OPENSSL_USE_STATIC_LIBS TRUE)
-    find_package(OpenSSL REQUIRED)
-    list(APPEND includes PUBLIC ${OPENSSL_INCLUDE_DIR})
-    list(APPEND libs 
-        ${OPENSSL_SSL_LIBRARY}
-        ${OPENSSL_CRYPTO_LIBRARY})
-    if (WIN32)
-        list(APPEND libs
-            WS2_32.LIB
-            GDI32.LIB
-            ADVAPI32.LIB
-            CRYPT32.LIB
-            USER32.LIB
-            legacy_stdio_definitions.lib)
-    endif()
+    # set(OPENSSL_USE_STATIC_LIBS TRUE)
+    # find_package(OpenSSL REQUIRED)
+    # list(APPEND includes PUBLIC ${OPENSSL_INCLUDE_DIR})
+    # list(APPEND libs 
+    #     ${OPENSSL_SSL_LIBRARY}
+    #     ${OPENSSL_CRYPTO_LIBRARY})
 
-    # Asio
-    list(APPEND includes PUBLIC ./lib/asio/asio/include/)
+    if (WIN32)
+        add_subdirectory(./lib/libwebsockets/)
+        list(APPEND libs websockets_static)
+        # list(APPEND libs
+        #     WS2_32.LIB
+        #     GDI32.LIB
+        #     ADVAPI32.LIB
+        #     CRYPT32.LIB
+        #     USER32.LIB
+        #     legacy_stdio_definitions.lib)
+    endif()
 endif()
 
 # Setup includes and linked libraries
