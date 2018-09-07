@@ -3,56 +3,26 @@
 
 #include "braincloud/internal/IWebSocket.h"
 
+#include <libwebsockets.h>
+
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
 #include <queue>
-
-#if defined(WIN32)
-extern "C" { FILE __iob_func[3] = { *stdin,*stdout,*stderr }; } 
-#endif
-
-#define ASIO_STANDALONE
-#include <websocketpp/config/asio_client.hpp>
-#include <websocketpp/client.hpp>
-
-typedef websocketpp::client<websocketpp::config::asio_tls_client> WebSocketPPClient;
+#include <thread>
 
 namespace BrainCloud
 {
     class DefaultWebSocket;
-    
-    class ConnectionHandler
-    {
-    public:
-        typedef websocketpp::lib::shared_ptr<ConnectionHandler> ptr;
-
-        ConnectionHandler(DefaultWebSocket* pWebSocket);
-
-        void on_open(WebSocketPPClient* c, websocketpp::connection_hdl hdl);
-        void on_fail(WebSocketPPClient* c, websocketpp::connection_hdl hdl);
-        void on_message(
-            websocketpp::connection_hdl hdl,
-            WebSocketPPClient::message_ptr msg);
-
-        bool getConnected();
-
-        websocketpp::connection_hdl handle;
-
-    private:
-        bool _isCompleted = false;
-        bool _isConnected = false;
-        std::mutex _mutex;
-        std::condition_variable _condition;
-        DefaultWebSocket* _pWebSocket;
-    };
 
 	class DefaultWebSocket : public IWebSocket
 	{
 	public:
+        static int libWebsocketsCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len);
+
 		virtual ~DefaultWebSocket();
 
-		virtual bool isValid() const;
+		virtual bool isValid();
 
 		virtual void send(const std::string& message);
 		virtual std::string recv();
@@ -62,23 +32,30 @@ namespace BrainCloud
 	protected:
 		friend class IWebSocket;
 
-		DefaultWebSocket(const std::string& address, int port);
+		DefaultWebSocket(const std::string& address, int port, const std::map<std::string, std::string>& headers);
 
 	private:
-        friend class ConnectionHandler;
+        void onClose();
+        void onError(const char* msg);
+        void onConnect();
+        void onRecv(const char* buffer, int len);
+        bool onProcessHeaders(unsigned char** ppBuffer, unsigned char* pEnd);
+        void processSendQueue();
 
-        void queueMessage(const std::string& message);
+        struct lws_context* _pLwsContext;
+        struct lws* _pLws;
 
-        WebSocketPPClient _client;
-        websocketpp::lib::shared_ptr<websocketpp::lib::thread> _thread;
-        WebSocketPPClient::connection_ptr _connection;
-        websocketpp::connection_hdl _handle;
-        ConnectionHandler::ptr _pConnectionHandler;
-        std::atomic<bool> _isValid;
-
-        std::queue<std::string> _messageQueue;
-        std::mutex _messageQueueMutex;
-        std::condition_variable _messageQueueCondition;
+        bool _isValid;
+        bool _isConnecting;
+        
+        std::thread _updateThread;
+        std::mutex _mutex;
+        std::mutex _recvMutex;
+        std::condition_variable _connectionCondition;
+        std::condition_variable _recvCondition;
+        std::map<std::string, std::string> _authHeaders;
+        std::vector<std::string> _sendQueue;
+        std::vector<std::string> _recvQueue;
 	};
 };
 

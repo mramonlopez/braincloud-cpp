@@ -10,7 +10,7 @@ namespace BrainCloud
     public:
         virtual ~ISocket() {}
 
-		virtual bool isValid() const = 0;
+		virtual bool isValid() = 0;
 
 		virtual void send(const std::string& message) = 0;
 		virtual std::string recv() = 0;

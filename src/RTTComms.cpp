@@ -298,6 +298,13 @@ namespace BrainCloud
 			std::string host = _endpoint["host"].asString();
 			int port = _endpoint["port"].asInt();
 
+            std::map<std::string, std::string> headers;
+            std::vector<std::string> keys = _auth.getMemberNames();
+            for (int i = 0; i < (int)keys.size(); ++i)
+            {
+                headers[keys[i]] = _auth[keys[i]].asString();
+            }
+
             {
                 {
                     std::unique_lock<std::mutex> lock(_socketMutex);
@@ -311,7 +318,25 @@ namespace BrainCloud
                         {
                             host = "ws://" + host;
                         }
-                        _socket = IWebSocket::create(host, port);
+                        
+                        // Add headers to the query URL
+                        if (!headers.empty())
+                        {
+                            host += "?";
+                            for (std::map<std::string, std::string>::iterator it = headers.begin(); it != headers.end(); ++it)
+                            {
+                                const std::string& key = it->first;
+                                const std::string& value = it->second;
+
+                                if (host.back() != '?')
+                                {
+                                    host += "&";
+                                }
+                                host += key + "=" + value;
+                            }
+                        }
+
+                        _socket = IWebSocket::create(host, port, headers);
                     }
                     else
                     {

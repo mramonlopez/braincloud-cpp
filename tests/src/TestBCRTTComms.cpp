@@ -103,7 +103,7 @@ TEST_F(TestBCRTTComms, RTTChatCallback)
 {
 	TestResult tr;
 
-    m_bc->enableRTT(&tr, false);
+    m_bc->enableRTT(&tr, true);
     tr.run(m_bc);
 
     // Get channel Id
@@ -144,7 +144,7 @@ TEST_F(TestBCRTTComms, RTTLobbyCallback)
 {
 	TestResult tr;
 
-    m_bc->enableRTT(&tr, false);
+    m_bc->enableRTT(&tr, true);
     tr.run(m_bc);
 
     // Register for RTT lobby
@@ -165,7 +165,7 @@ TEST_F(TestBCRTTComms, RTTEventCallback)
 {
 	TestResult tr;
 
-    m_bc->enableRTT(&tr, false);
+    m_bc->enableRTT(&tr, true);
     tr.run(m_bc);
 
     // Register for RTT lobby

@@ -120,7 +120,7 @@ else()
 	list(APPEND OS_SPECIFIC_SRCS "src/DefaultBrainCloudComms.cpp")
 endif()
 
-if (USE_WEBSOCKETPP)
+if (USE_LIBWEBSOCKETS)
     list(APPEND OS_SPECIFIC_INCS
         "include/braincloud/internal/DefaultWebSocket.h")
     list(APPEND OS_SPECIFIC_SRCS
@@ -392,28 +392,37 @@ endif()
 
 # LibWebSockets
 if (USE_LIBWEBSOCKETS)
-    # LibWebSocket
-    # list(APPEND includes PUBLIC ./lib/websocketpp/)
-
+    option(LWS_WITHOUT_SERVER
+        "Don't build the server part of the library"
+        ON)
+    option(LWS_WITHOUT_TESTAPPS
+        "Don't build the libwebsocket-test-apps"
+        ON)
+    option(LWS_WITHOUT_TEST_SERVER
+        "Don't build the test server"
+        ON)
+    option(LWS_WITHOUT_TEST_SERVER_EXTPOLL 
+        "Don't build the test server version that uses external poll"
+        ON)
+    option(LWS_WITHOUT_TEST_PING 
+        "Don't build the ping test application"
+        ON)
+    option(LWS_WITHOUT_TEST_CLIENT
+        "Don't build the client test application"
+        ON)
+    option(LWS_WITH_SHARED
+        "Build the shared version of the library"
+        OFF)
+    add_subdirectory(./lib/libwebsockets/)
+    list(APPEND libs websockets)
+    list(APPEND includes PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/libwebsockets/include/)
+    
     # OpenSSL
-    # set(OPENSSL_USE_STATIC_LIBS TRUE)
-    # find_package(OpenSSL REQUIRED)
-    # list(APPEND includes PUBLIC ${OPENSSL_INCLUDE_DIR})
-    # list(APPEND libs 
-    #     ${OPENSSL_SSL_LIBRARY}
-    #     ${OPENSSL_CRYPTO_LIBRARY})
-
-    if (WIN32)
-        add_subdirectory(./lib/libwebsockets/)
-        list(APPEND libs websockets_static)
-        # list(APPEND libs
-        #     WS2_32.LIB
-        #     GDI32.LIB
-        #     ADVAPI32.LIB
-        #     CRYPT32.LIB
-        #     USER32.LIB
-        #     legacy_stdio_definitions.lib)
-    endif()
+    set(OPENSSL_USE_STATIC_LIBS TRUE)
+    find_package(OpenSSL REQUIRED ssl crypto)
+    list(APPEND libs 
+        OpenSSL::SSL
+        OpenSSL::Crypto)
 endif()
 
 # Setup includes and linked libraries
