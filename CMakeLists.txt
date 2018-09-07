@@ -412,7 +412,6 @@ if (USE_LIBWEBSOCKETS)
         PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/libwebsockets/include/)
     
     # OpenSSL
-    set(OPENSSL_USE_STATIC_LIBS TRUE)
     find_package(OpenSSL REQUIRED ssl crypto)
     list(APPEND libs 
         OpenSSL::SSL
