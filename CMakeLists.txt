@@ -393,29 +393,23 @@ endif()
 # LibWebSockets
 if (USE_LIBWEBSOCKETS)
     option(LWS_WITHOUT_SERVER
-        "Don't build the server part of the library"
-        ON)
+        "Don't build the server part of the library" ON)
     option(LWS_WITHOUT_TESTAPPS
-        "Don't build the libwebsocket-test-apps"
-        ON)
+        "Don't build the libwebsocket-test-apps" ON)
     option(LWS_WITHOUT_TEST_SERVER
-        "Don't build the test server"
-        ON)
+        "Don't build the test server" ON)
     option(LWS_WITHOUT_TEST_SERVER_EXTPOLL 
-        "Don't build the test server version that uses external poll"
-        ON)
+        "Don't build the test server version that uses external poll" ON)
     option(LWS_WITHOUT_TEST_PING 
-        "Don't build the ping test application"
-        ON)
+        "Don't build the ping test application" ON)
     option(LWS_WITHOUT_TEST_CLIENT
-        "Don't build the client test application"
-        ON)
+        "Don't build the client test application" ON)
     option(LWS_WITH_SHARED
-        "Build the shared version of the library"
-        OFF)
+        "Build the shared version of the library" OFF)
     add_subdirectory(./lib/libwebsockets/)
     list(APPEND libs websockets)
-    list(APPEND includes PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/libwebsockets/include/)
+    list(APPEND includes 
+        PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib/libwebsockets/include/)
     
     # OpenSSL
     set(OPENSSL_USE_STATIC_LIBS TRUE)
