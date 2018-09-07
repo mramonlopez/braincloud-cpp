@@ -7,9 +7,12 @@
 
 #include <atomic>
 #include <condition_variable>
+#include <map>
 #include <mutex>
 #include <queue>
+#include <string>
 #include <thread>
+#include <vector>
 
 namespace BrainCloud
 {
@@ -42,20 +45,28 @@ namespace BrainCloud
         bool onProcessHeaders(unsigned char** ppBuffer, unsigned char* pEnd);
         void processSendQueue();
 
-        struct lws_context* _pLwsContext;
-        struct lws* _pLws;
-
+        // State
         bool _isValid;
         bool _isConnecting;
-        
-        std::thread _updateThread;
+
+        // Update and send queue
         std::mutex _mutex;
-        std::mutex _recvMutex;
+        std::queue<std::string> _sendQueue;
+        std::vector<uint8_t> _sendBuffer;
+        std::thread _updateThread;
+
+        // Connection
         std::condition_variable _connectionCondition;
+
+        // Receiving queue
+        std::mutex _recvMutex;
+        std::queue<std::string> _recvQueue;
         std::condition_variable _recvCondition;
+
+        // Context
+        struct lws_context* _pLwsContext;
+        struct lws* _pLws;
         std::map<std::string, std::string> _authHeaders;
-        std::vector<std::string> _sendQueue;
-        std::vector<std::string> _recvQueue;
 	};
 };
 

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cctype>
 
-#define MAX_PAYLOAD 2048
+#define MAX_PAYLOAD (64 * 1024)
 
 namespace BrainCloud
 {
@@ -52,7 +52,7 @@ namespace BrainCloud
     {
         std::string uriCopy = uri;
         
-        // Split address
+        // Split address into host/addr/origin/protocol
         std::string protocol = uriCopy.substr(0, std::min<size_t>(uriCopy.size(), uriCopy.find_first_of(':')));
         size_t protocolSize = protocol.size() + 3;
         size_t argsPos = std::min<size_t>(uriCopy.size(), uriCopy.find_first_of('?', protocolSize));
@@ -236,28 +236,22 @@ namespace BrainCloud
     void DefaultWebSocket::send(const std::string& message)
     {
         std::unique_lock<std::mutex> lock(_mutex);
-        _sendQueue.push_back(message);
+        _sendQueue.push(message);
     }
 
     void DefaultWebSocket::processSendQueue()
     {
-        unsigned char buf[LWS_PRE + MAX_PAYLOAD];
-
         std::unique_lock<std::mutex> lock(_mutex);
-        for (int i = 0; i < (int)_sendQueue.size(); ++i)
+        while (!_sendQueue.empty())
         {
-            const std::string& message = _sendQueue[i];
+            const std::string& message = _sendQueue.front();
 
-            if (message.size() > MAX_PAYLOAD)
-            {
-                std::cout << "[error] Message size bigger than " << MAX_PAYLOAD << ". Message will not be sent." << std::endl;
-                continue; // skip it
-            }
+            _sendBuffer.resize(LWS_PRE + message.size());
+            memcpy(_sendBuffer.data() + LWS_PRE, message.c_str(), message.size());
+            lws_write(_pLws, _sendBuffer.data() + LWS_PRE, message.size(), LWS_WRITE_TEXT);
 
-            memcpy(buf + LWS_PRE, message.c_str(), message.size());
-            lws_write(_pLws, buf + LWS_PRE, message.size(), LWS_WRITE_TEXT);
+            _sendQueue.pop();
         }
-        _sendQueue.clear();
     }
 
     std::string DefaultWebSocket::recv()
@@ -267,7 +261,7 @@ namespace BrainCloud
         if (!_recvQueue.empty())
         {
             std::string message = _recvQueue.front();
-            _recvQueue.erase(_recvQueue.begin());
+            _recvQueue.pop();
             return message;
         }
 
@@ -276,10 +270,10 @@ namespace BrainCloud
             return !_isValid || !_recvQueue.empty();
         });
 
-        if (!_recvQueue.empty())
+        if (_isValid && !_recvQueue.empty())
         {
             std::string message = _recvQueue.front();
-            _recvQueue.erase(_recvQueue.begin());
+            _recvQueue.pop();
             return message;
         }
 
@@ -288,19 +282,34 @@ namespace BrainCloud
 
     void DefaultWebSocket::close()
     {
+        // Stop and clean send queue
         {
             std::unique_lock<std::mutex> lock(_mutex);
+            while (!_sendQueue.empty()) _sendQueue.pop();
             _isValid = false;
             _isConnecting = false;
             _connectionCondition.notify_all();
         }
+
+        // Stop and clean recving
         {
             std::unique_lock<std::mutex> lock(_recvMutex);
+            while (!_recvQueue.empty()) _recvQueue.pop();
             _recvCondition.notify_all();
         }
+
+        // Join update thread
         if (_updateThread.joinable())
         {
             _updateThread.join();
+        }
+
+        // Destroy libWebSockets
+        if (_pLwsContext)
+        {
+            lws_context_destroy(_pLwsContext);
+            _pLwsContext = NULL;
+            _pLws = NULL;
         }
     }
 
@@ -340,7 +349,7 @@ namespace BrainCloud
 
         std::unique_lock<std::mutex> lock(_recvMutex);
         std::string message(buffer, len);
-        _recvQueue.push_back(message);
+        _recvQueue.push(message);
         _recvCondition.notify_all();
     }
 
