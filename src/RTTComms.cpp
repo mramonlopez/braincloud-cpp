@@ -357,7 +357,7 @@ namespace BrainCloud
 
 			if (_loggingEnabled)
 			{
-				std::cout << "RTT TCP: connected" << std::endl;
+				std::cout << "RTT: connected" << std::endl;
 			}
 
 			onSocketConnected();

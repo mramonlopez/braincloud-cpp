@@ -38,6 +38,8 @@ namespace BrainCloud
         return new DefaultWebSocket(address, port, headers);
     }
 
+    struct lws_context* DefaultWebSocket::s_pLwsContext = NULL;
+
     DefaultWebSocket::~DefaultWebSocket()
     {
         close();
@@ -45,7 +47,6 @@ namespace BrainCloud
 
     DefaultWebSocket::DefaultWebSocket(const std::string& uri, int port, const std::map<std::string, std::string>& headers)
         : _isValid(false)
-        , _pLwsContext(NULL)
         , _pLws(NULL)
         , _isConnecting(true)
         , _authHeaders(headers)
@@ -81,6 +82,7 @@ namespace BrainCloud
         bool useSSL = protocolCaps == "WSS";
 
         // Create context
+        if (!s_pLwsContext)
         {
             struct lws_context_creation_info info;
             memset(&info, 0, sizeof info);
@@ -90,11 +92,11 @@ namespace BrainCloud
             info.gid = -1;
             info.uid = -1;
             info.extensions = exts;
-            info.options = LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT |
-                           LWS_SERVER_OPTION_VALIDATE_UTF8;
+            info.options = LWS_SERVER_OPTION_VALIDATE_UTF8;
+            info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
 
-            _pLwsContext = lws_create_context(&info);
-            if (!_pLwsContext)
+            s_pLwsContext = lws_create_context(&info);
+            if (!s_pLwsContext)
             {
                 std::cout << "Failed to create websocket context" << std::endl;
                 return;
@@ -108,8 +110,8 @@ namespace BrainCloud
             while (_isConnecting || _isValid)
             {
                 _mutex.unlock();
-                lws_callback_on_writable_all_protocol(_pLwsContext, &protocols[0]);
-                lws_service(_pLwsContext, 100);
+                lws_callback_on_writable_all_protocol(s_pLwsContext, &protocols[0]);
+                lws_service(s_pLwsContext, 100);
                 _mutex.lock();
             }
             _mutex.unlock();
@@ -120,7 +122,7 @@ namespace BrainCloud
             struct lws_client_connect_info connectInfo;
             memset(&connectInfo, 0, sizeof(connectInfo));
 
-            connectInfo.context = _pLwsContext;
+            connectInfo.context = s_pLwsContext;
             connectInfo.address = addr.c_str();
             connectInfo.port = port;
             if (useSSL)
@@ -305,10 +307,10 @@ namespace BrainCloud
         }
 
         // Destroy libWebSockets
-        if (_pLwsContext)
+        if (_pLws)
         {
-            lws_context_destroy(_pLwsContext);
-            _pLwsContext = NULL;
+            // lws_context_destroy(s_pLwsContext); // We keep out static instance around
+            lws_set_timeout(_pLws, NO_PENDING_TIMEOUT, LWS_TO_KILL_SYNC);
             _pLws = NULL;
         }
     }
@@ -321,6 +323,7 @@ namespace BrainCloud
         _isValid = false;
         _isConnecting = false;
         _connectionCondition.notify_all();
+        _pLws = NULL; // This is now invalid
     }
 
     void DefaultWebSocket::onError(const char* msg)
@@ -331,6 +334,7 @@ namespace BrainCloud
         _isValid = false;
         _isConnecting = false;
         _connectionCondition.notify_all();
+        _pLws = NULL; // This is now invalid
     }
 
     void DefaultWebSocket::onConnect()
