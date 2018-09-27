@@ -314,6 +314,7 @@
     <ClCompile Include="..\..\..\src\BrainCloudSteam.cpp" />
     <ClCompile Include="..\..\..\src\BrainCloudTime.cpp" />
     <ClCompile Include="..\..\..\src\BrainCloudTournament.cpp" />
+    <ClCompile Include="..\..\..\src\BrainCloudWrapper.cpp" />
     <ClCompile Include="..\..\..\src\FriendPlatform.cpp" />
     <ClCompile Include="..\..\..\src\GUID.cpp" />
     <ClCompile Include="..\..\..\src\IBrainCloudComms.cpp" />
