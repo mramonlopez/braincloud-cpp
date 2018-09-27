@@ -251,6 +251,8 @@
     <ClInclude Include="..\..\..\include\braincloud\IFileUploadCallback.h" />
     <ClInclude Include="..\..\..\include\braincloud\IGlobalErrorCallback.h" />
     <ClInclude Include="..\..\..\include\braincloud\INetworkErrorCallback.h" />
+    <ClInclude Include="..\..\..\include\braincloud\internal\DefaultBrainCloudComms.h" />
+    <ClInclude Include="..\..\..\include\braincloud\internal\DefaultSaveDataHelper.h" />
     <ClInclude Include="..\..\..\include\braincloud\internal\GUID.h" />
     <ClInclude Include="..\..\..\include\braincloud\internal\IBrainCloudComms.h" />
     <ClInclude Include="..\..\..\include\braincloud\internal\IFileUploader.h" />
@@ -266,10 +268,9 @@
     <ClInclude Include="..\..\..\include\braincloud\internal\URLRequestHeader.h" />
     <ClInclude Include="..\..\..\include\braincloud\internal\URLRequestMethod.h" />
     <ClInclude Include="..\..\..\include\braincloud\internal\URLResponse.h" />
-    <ClInclude Include="..\..\..\include\braincloud\internal\win\CppRestBrainCloudComms.h" />
-    <ClInclude Include="..\..\..\include\braincloud\internal\win\CppRestFileUploader.h" />
-    <ClInclude Include="..\..\..\include\braincloud\internal\win\MD5.h" />
-    <ClInclude Include="..\..\..\include\braincloud\internal\win\WindowsSaveDataHelper.h" />
+    <ClInclude Include="..\..\..\include\braincloud\internal\win\XMLHTTPEventSink.h" />
+    <ClInclude Include="..\..\..\include\braincloud\internal\win\XMLHTTPRequestFileUploader.h" />
+    <ClInclude Include="..\..\..\include\braincloud\internal\win\XMLHTTPRequestLoader.h" />
     <ClInclude Include="..\..\..\include\braincloud\IRewardCallback.h" />
     <ClInclude Include="..\..\..\include\braincloud\IServerCallback.h" />
     <ClInclude Include="..\..\..\include\braincloud\OperationParam.h" />
@@ -314,6 +315,10 @@
     <ClCompile Include="..\..\..\src\BrainCloudSteam.cpp" />
     <ClCompile Include="..\..\..\src\BrainCloudTime.cpp" />
     <ClCompile Include="..\..\..\src\BrainCloudTournament.cpp" />
+    <ClCompile Include="..\..\..\src\DefaultBrainCloudComms.cpp" />
+    <ClCompile Include="..\..\..\src\DefaultFileUploader.cpp" />
+    <ClCompile Include="..\..\..\src\DefaultGUID.cpp" />
+    <ClCompile Include="..\..\..\src\DefaultSaveDataHelper.cpp" />
     <ClCompile Include="..\..\..\src\FriendPlatform.cpp" />
     <ClCompile Include="..\..\..\src\GUID.cpp" />
     <ClCompile Include="..\..\..\src\IBrainCloudComms.cpp" />
@@ -332,12 +337,9 @@
     <ClCompile Include="..\..\..\src\URLRequestHeader.cpp" />
     <ClCompile Include="..\..\..\src\URLRequestMethod.cpp" />
     <ClCompile Include="..\..\..\src\URLResponse.cpp" />
-    <ClCompile Include="..\..\..\src\win\CppRestBrainCloudComms.cpp" />
-    <ClCompile Include="..\..\..\src\win\CppRestFileUploader.cpp" />
-    <ClCompile Include="..\..\..\src\win\MD5.cpp" />
-    <ClCompile Include="..\..\..\src\win\WindowsDevice.cpp" />
-    <ClCompile Include="..\..\..\src\win\WindowsGUID.cpp" />
-    <ClCompile Include="..\..\..\src\win\WindowsSaveDataHelper.cpp" />
+    <ClCompile Include="..\..\..\src\win\XMLHTTPEventSink.cpp" />
+    <ClCompile Include="..\..\..\src\win\XMLHTTPRequestFileUploader.cpp" />
+    <ClCompile Include="..\..\..\src\win\XMLHTTPRequestLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
