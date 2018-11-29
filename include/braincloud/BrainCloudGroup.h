@@ -437,7 +437,7 @@ namespace BrainCloud
 		 * @param isOpenGroup whether its open or not
 		 * @param callback The method to be invoked when the server response is received
 		 */
-		void setGroupOpen(const char* in_groupId, bool in_isOpenGroup, IServerCallback *callback = nullptr);
+		void setGroupOpen(const char* in_groupId, bool in_isOpenGroup, IServerCallback *callback = NULL);
 
 	private:
 		BrainCloudClient * m_client;
