@@ -5,7 +5,7 @@
 
 #include <json/json.h>
 
-#include <atomic>
+#include <cstdatomic>
 #include <map>
 #include <mutex>
 #include <string>
