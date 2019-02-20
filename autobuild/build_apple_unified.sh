@@ -28,6 +28,8 @@ fi
 build_internal_version=`echo $build_version | cut -d \".\" -f 4`
 build_external_version=`echo $build_version | cut -d \".\" -f 1-3`
 
+  #update the libwebsocket dependencies
+git submodule update --init
 
 function failed()
 {
@@ -122,9 +124,6 @@ function build_app()
   cp "$output_folder_osx/libBrainCloud-OSX.a" brainCloud/libs/brainCloudClient_osx.a
 
   cp -r ../include/braincloud brainCloud/include
-
-  #update the libwebsocket dependencies
-  git submodule update --init
 
   # copy in the thirdparty dependencies
   cp -r ../lib/jsoncpp-1.0.0 brainCloud/thirdparty
